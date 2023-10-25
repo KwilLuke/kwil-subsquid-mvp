@@ -82,7 +82,7 @@ export class KwilDatabase<T extends Actions, D extends Dest> implements FinalDat
 
     /**
      * `connect` is called when the indexer is first started. @Subsquid-team, is this correct?
-     * 
+     *
      * @returns {HashAndHeight} The latest hash and height from the local filesystem.
      */
     async connect(): Promise<HashAndHeight> {
@@ -99,7 +99,7 @@ export class KwilDatabase<T extends Actions, D extends Dest> implements FinalDat
 
     /**
      * `transact` is called when the indexer is processing a new block. @Subsquid-team, is this correct?
-     * 
+     *
      * @param {FinalTxInfo} info The `FinalTxInfo` object that contains the block's hash and height. This is provided from the subsquid SDK.
      * @param {(Store<T>) => Promise<void>} cb The callback function that is executed when the state is updated. @Subsquid-team - what exactly is the callback function that is passed from the Squid SDK, and what is its purpose?
      */
@@ -126,7 +126,7 @@ export class KwilDatabase<T extends Actions, D extends Dest> implements FinalDat
 
     /**
      * `getState` gets the latest hash and height from the local filesystem.
-     * 
+     *
      * @returns {HashAndHeight} The latest hash and height from the local filesystem.
      */
     private async getState(): Promise<HashAndHeight> {

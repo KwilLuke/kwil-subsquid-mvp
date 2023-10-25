@@ -103,7 +103,7 @@ export class KwilAction implements KwilAction {
 
     /**
      * `waitForDeployment` waits for the tx to be mined on the local Kwil chain.
-     * 
+     *
      * @param {string} hash - The hash of the tx that was broadcast to Kwil Database.
      */
     private async waitForDeployment(hash: string): Promise<void> {

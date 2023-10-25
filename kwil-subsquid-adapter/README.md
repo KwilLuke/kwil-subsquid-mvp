@@ -67,6 +67,34 @@ export const AddData = new KwilAction(kwilConfig, "add_records", dbid, wallet, p
 
 Then, you can add this action to the `KwilDatabase` instance.
 
+## Execute Action
+
+Once data is indexed, you can execute on the action on the Kwil Database by calling the `execute()` method on the processor's `ctx.store` object:
+
+```typescript
+import { Utils } from '@kwilteam/kwil-js';
+
+const ActionInput = Utils.ActionInput;
+
+processor.run(db, async (ctx) => {
+    ...
+    const input = new ActionInput()
+        .putFromObject({
+            '$id': log.id,
+            '$token_id': tokenId.toString(),
+            '$transfer_from': from,
+            '$transfer_to': to,
+            '$tx_timestamp': String(block.header.timestamp),
+            '$block_number': Number(block.header.height),
+            '$tx_hash': log.transactionHash
+        })
+
+    await ctx.store.AddData.execute(input); 
+})
+```
+
+It is recommended to execute inputs in batch. You can see a sample implementation of this in the [kwil-squid-demo](https://github.com/KwilLuke/kwil-subsquid-mvp/blob/main/kwil-squid-demo/src/main.ts).
+
 ## Quickstart
 
 To run a subsquid indexer against a Kwil Database, follow the steps in the repo-level [README.md](../README.md).
