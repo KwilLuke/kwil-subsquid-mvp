@@ -1,0 +1,22 @@
+database test_subsquid;
+
+table transfers {
+    id text primary notnull,
+    token_id int notnull,
+    transfer_from text notnull,
+    fransfer_to text notnull,
+    tx_timestamp text notnull,
+    block_number int notnull,
+    tx_hash text notnull
+}
+
+action add_records ($id, $token_id, $transfer_from, $transfer_to, $tx_timestamp, $block_number, $tx_hash) public {
+    INSERT INTO transfers
+    VALUES (
+        $id, $token_id, $transfer_from, $transfer_to, $tx_timestamp, $block_number, $tx_hash
+    );
+}
+
+action count_transfers() public view {
+    SELECT count(*) FROM transfers;
+}

@@ -1,0 +1,24 @@
+{
+  "name": "kwil-subsquid-adapter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "^16.3.1",
+    "ethers": "^6.8.0"
+  },
+  "dependencies": {
+    "@kwilteam/kwil-js": "^0.2.1",
+    "@subsquid/util-internal": "^2.5.2",
+    "@subsquid/util-internal-processor-tools": "^3.1.0",
+    "assert": "^2.1.0",
+    "upath": "^2.0.1"
+  }
+}

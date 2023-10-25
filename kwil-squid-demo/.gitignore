@@ -1,0 +1,10 @@
+/node_modules
+/lib
+/builds
+/status
+
+/**Versions.json
+
+# IDE files
+/.idea
+.env
