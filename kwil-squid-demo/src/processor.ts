@@ -11,6 +11,7 @@ import * as bayc from './abi/bayc'
 
 export const CONTRACT_ADDRESS = '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d'
 
+// this is the default processor for the BAYC tutorial
 export const processor = new EvmBatchProcessor()
     .setDataSource({
         archive: lookupArchive('eth-mainnet'),

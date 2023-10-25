@@ -1,15 +1,5 @@
+import { HashAndHeight } from "@subsquid/util-internal-processor-tools";
 import { Dest } from "./dest";
-
-interface HashAndHeight {
-    hash: string;
-    height: number;
-}
-
-interface FinalTxInfo {
-    prevHead: HashAndHeight;
-    nextHead: HashAndHeight;
-    isOnTop: boolean;
-}
 
 export interface DatabaseHooks<D extends Dest = Dest> {
     onStateRead(dest: D): Promise<HashAndHeight | undefined>;

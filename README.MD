@@ -21,6 +21,8 @@ Download the following from the [Kwil Release Repo](https://github.com/kwilteam/
 
 Extract the binaries and add them to your $PATH. For more on this, refer to this Stack Overflow [post](https://stackoverflow.com/questions/26021116/installing-a-program-through-mac-command-line-by-putting-binary-in-my-path).
 
+You will also need to download the [Squid CLI](https://docs.subsquid.io/squid-cli/installation/).
+
 You will also need an Ethereum Private Key to sign transactions on Kwil. If you have `openssl` installed, you can generate a key with the following command:
 
 ```bash
@@ -76,7 +78,7 @@ This will deploy a transaction hash. To check that the schema has been sucessful
 hash=<TRANSACTION_HASH> make check-tx
 ```
 
-### 4. Start Kwil Subsquid Adapter
+### 4. Start Kwil Subsquid Demo
 
 In the `kwil-squid-demo` directory, create a `.env` file with the following contents:
 
@@ -97,7 +99,7 @@ This will start indexing data all BAYC transfers and store them in a Kwil Databa
 
 ### 5. Query Kwil Database
 
-As records are added to the database, you can check the amount of records in the transfers table by running the following command:
+As records are added to the database, you can check the amount of records in the transfers table by running the following command **in a new terminal**:
 
 ```bash
 make count-records
