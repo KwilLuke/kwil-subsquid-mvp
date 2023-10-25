@@ -69,7 +69,7 @@ Kwil RPC TLS certificate path: <PRESS ENTER> #leave blank
 
 ### 3. Deploy Kuneiform Schema
 
-In [`kwil_schema.kf`](./kwil_schema.kf), there is a simple [Kuneiform](https://docs.kwil.com/docs/kuneiform/introduction) schema that define the structure of the database. The schema defines a single table called `transfers`, with two actions: `add_records` to insert data into transfers, and `count_records` to count the number of records in the table.
+In [`kwil_schema.kf`](./kwil_schema.kf), there is a simple [Kuneiform](https://docs.kwil.com/docs/kuneiform/introduction) schema that defines the schema structure. The schema defines a single table called `transfers`, with two actions: `add_records` to insert data into transfers, and `count_records` to count the number of records in the table.
 
 To deploy the schema, run the following command:
 
@@ -77,7 +77,7 @@ To deploy the schema, run the following command:
 make deploy-schema
 ```
 
-This will deploy a transaction hash. To check that the schema has been sucessfully mined on your local Kwil chain, run the following command:
+This will return a transaction hash. To check that the schema has been sucessfully mined on your local Kwil chain, run the following command:
 
 ```bash
 hash=<TRANSACTION_HASH> make check-tx
@@ -122,7 +122,7 @@ The `kwil-subsquid-adapter` library is not properly configured to pause and resu
 
 If the indexer is paused, it will resume indexing from the beginning. If you start indexing on a schema that already has records, you may get an error because the record `id` (i.e. the table primary key) already exists.
 
-If you want to pause and resume indexing, you will need to drop and re-deploy the schema. To do drop the schema, run the following command:
+If you want to pause and resume indexing, you will need to drop and re-deploy the schema. To drop the schema, run the following command:
 
 ```bash
 make drop-schema
@@ -139,7 +139,7 @@ The following steps can be taken to improve the adapter:
 - Persisting index status to pause and resume indexing.
 - Kwil error handling for rolling back transactions, when needed.
 - Internally manage the action execution. Currently, the [processor](./kwil-squid-demo//src/main.ts) only sends data to Kwil for every 1000 records. This could be managed internally by the adapter, similar to how the [Subsquid File Store Repository](https://github.com/subsquid/squid-file-store) has a minimum bytes size before writing to file system.
-- Add subsquid logger to the adapter.
+- Add Subsquid logger to the adapter.
 
 ## Kwil Info
 
