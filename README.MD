@@ -10,20 +10,22 @@ This repo is broken into two main parts:
 
 - `kwil-subquid-adapater` - This is a simple package that contains a custom implementation of the Subsquid [`Database`](https://docs.subsquid.io/store/custom-database/) interface. This package follows the implementation of the [Subsquid File Store Repository](https://github.com/subsquid/squid-file-store/tree/master/file-store).
 
-- `kwil-squid-demo` - A sample squid that uses the `kwil-subsquid-adapter` to all BAYC transfers and stores them in a Kwil Database.
+- `kwil-squid-demo` - A sample squid that uses the `kwil-subsquid-adapter` to index BAYC transfers and store them in a Kwil Database.
 
 ## Pre-requisites
 
-Download the following from the [Kwil Release Repo](https://github.com/kwilteam/binary-releases/releases).
+1. Download the following from the [Kwil Release Repo](https://github.com/kwilteam/binary-releases/releases).
 
 - Kwil CLI (`kwil-cli_...`)
 - Kwil Daemon (`kwild_...`)
 
+![assets](./assets/assets.png)
+
 Extract the binaries and add them to your $PATH. For more on this, refer to this Stack Overflow [post](https://stackoverflow.com/questions/26021116/installing-a-program-through-mac-command-line-by-putting-binary-in-my-path).
 
-You will also need to download the [Squid CLI](https://docs.subsquid.io/squid-cli/installation/).
+2. Download the [Squid CLI](https://docs.subsquid.io/squid-cli/installation/).
 
-You will also need an Ethereum Private Key to sign transactions on Kwil. If you have `openssl` installed, you can generate a key with the following command:
+3. Obtain an Ethereum Private Key to sign transactions on Kwil. If you have `openssl` installed, you can generate a key with the following command:
 
 ```bash
 make generate-private-key
@@ -47,6 +49,8 @@ make kwild-start
 
 This will start a local Kwil node on your machine, and will automatically generate the required configs for a node.
 
+If you stop or close the terminal, the node will stop running.
+
 ### 2. Configure Kwil CLI
 
 In a new terminal window, run the following command to configure the Kwil CLI:
@@ -60,11 +64,12 @@ This will prompt you to enter the following:
 ```bash
 Kwil RPC URL: localhost:50051
 Private Key: <YOUR_PRIVATE_KEY>
+Kwil RPC TLS certificate path: <PRESS ENTER> #leave blank
 ```
 
 ### 3. Deploy Kuneiform Schema
 
-In `kwil_schema.kf`, there is a simple [Kuneiform](https://docs.kwil.com/docs/kuneiform/introduction) schema that define the structure of the database. The schema defines a single table called `transfers`, with two actions: `add_records` to insert data into transfers, and `count_records` to count the number of records in the table.
+In [`kwil_schema.kf`](./kwil_schema.kf), there is a simple [Kuneiform](https://docs.kwil.com/docs/kuneiform/introduction) schema that define the structure of the database. The schema defines a single table called `transfers`, with two actions: `add_records` to insert data into transfers, and `count_records` to count the number of records in the table.
 
 To deploy the schema, run the following command:
 
@@ -72,7 +77,7 @@ To deploy the schema, run the following command:
 make deploy-schema
 ```
 
-This will deploy a transaction hash. To check that the schema has been sucessfully mined on your local kwil chain, run the following command:
+This will deploy a transaction hash. To check that the schema has been sucessfully mined on your local Kwil chain, run the following command:
 
 ```bash
 hash=<TRANSACTION_HASH> make check-tx
@@ -89,7 +94,7 @@ GQL_PORT=4350
 PRIVATE_KEY=<YOUR_PRIVATE_KEY>
 ```
 
-Then from the root directory, run the following command to start indexing data:
+Then, from the root directory, run the following command to start indexing data:
 
 ```bash
 make start-squid
@@ -99,7 +104,7 @@ This will start indexing data all BAYC transfers and store them in a Kwil Databa
 
 ### 5. Query Kwil Database
 
-As records are added to the database, you can check the amount of records in the transfers table by running the following command **in a new terminal**:
+As records are added to the database, you can check the amount of records in the `transfers` table by running the following command **in a new terminal**:
 
 ```bash
 make count-records
