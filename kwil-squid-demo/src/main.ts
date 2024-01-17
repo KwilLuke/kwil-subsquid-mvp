@@ -19,7 +19,7 @@ processor.run(db, async (ctx) => {
                 let { from, to, tokenId } = bayc.events.Transfer.decode(log);
 
                 // create the input to be passed to the execute function: https://github.com/KwilLuke/kwil-subsquid-mvp/blob/main/kwil-subsquid-adapter/src/database/KwilAction.ts
-                const input = new ActionInput().putFromObject({
+                const input = {
                     $id: log.id,
                     $token_id: tokenId.toString(),
                     $transfer_from: from,
@@ -27,7 +27,7 @@ processor.run(db, async (ctx) => {
                     $tx_timestamp: String(block.header.timestamp),
                     $block_number: Number(block.header.height),
                     $tx_hash: log.transactionHash,
-                });
+                };
 
                 // add input to inputs array
                 inputs.push(input);

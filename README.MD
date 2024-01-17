@@ -47,11 +47,19 @@ To start the Kwil Daemon, run the following command:
 make kwild-start
 ```
 
-This will start a local Kwil node on your machine, and will automatically generate the required configs for a node.
+This will start a local Kwil node on your machine (available over http at `http://localhost:8080`), and will automatically generate the required configs for a node.
 
 If you stop or close the terminal, the node will stop running.
 
-### 2. Configure Kwil CLI
+### 2. Retrieve Chain ID
+
+Retrieve the chain ID of the local Kwil node by running the following command:
+
+```bash
+make chain-id
+```
+
+### 3. Configure Kwil CLI
 
 In a new terminal window, run the following command to configure the Kwil CLI:
 
@@ -59,12 +67,12 @@ In a new terminal window, run the following command to configure the Kwil CLI:
 make kwil-cli-configure
 ```
 
-This will prompt you to enter the following:
+This will prompt you to enter the following. Make sure to use the Chain ID from the previous step:
 
 ```bash
-Kwil RPC URL: localhost:50051
+Kwil RPC URL: http://localhost:8080
+Kwil Chain ID: kwil-chain-...
 Private Key: <YOUR_PRIVATE_KEY>
-Kwil RPC TLS certificate path: <PRESS ENTER> #leave blank
 ```
 
 ### 3. Deploy Kuneiform Schema
@@ -85,13 +93,14 @@ hash=<TRANSACTION_HASH> make check-tx
 
 ### 4. Start Kwil Subsquid Demo
 
-In the `kwil-squid-demo` directory, create a `.env` file with the following contents:
+In the [`kwil-squid-demo`](./kwil-squid-demo/) directory, create a `.env` file with the following contents:
 
 ```bash
 DB_NAME=squid
 DB_PORT=23798
 GQL_PORT=4350
 PRIVATE_KEY=<YOUR_PRIVATE_KEY>
+CHAIN_ID=<YOUR_CHAIN_ID>
 ```
 
 Then, from the root directory, run the following command to start indexing data:

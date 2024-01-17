@@ -1,5 +1,7 @@
 .DEFAULT_GOAL := help
 
+KWIL_PROVIDER=http://localhost:8080
+
 .PHONY: help
 
 help:
@@ -40,6 +42,10 @@ count-records: ## Count the records deployed to the test database.
 install: ## Install dependencies in kwil-squid-demo and kwil-subsquid-adapter. Compile typescript in kwil-subquid-adapter.
 	@cd kwil-squid-demo && npm install
 	@cd kwil-subsquid-adapter && npm install && npm run build
+
+chain-id: ## Retrieve the chain id for the connected kwil chain
+	$(MAKE) _check-kwil
+	@kwil-cli utils chain-info --kwil-provider $(KWIL_PROVIDER)
 
 _check-kwil: ## Check if kwil is installed.
 	@which kwil-cli > /dev/null || (echo "kwil-cli not found! Please install kwil cli."; exit 1)

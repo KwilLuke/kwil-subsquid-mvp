@@ -1,10 +1,11 @@
-import { NodeKwil, WebKwil, Types } from "@kwilteam/kwil-js";
+import { NodeKwil, WebKwil, Types, KwilSigner } from "@kwilteam/kwil-js";
 import { EthSigner } from "@kwilteam/kwil-js/dist/core/builders";
 import { assertNotNull } from "@subsquid/util-internal";
 import { Config as KwilConfig } from "@kwilteam/kwil-js/dist/api_client/config";
+import { Entries } from "@kwilteam/kwil-js/dist/core/action";
 
 export interface KwilAction {
-    execute(inputs: Types.ActionInput | Types.ActionInput[]): Promise<void>;
+    execute(inputs: Entries[]): Promise<void>;
 }
 
 /**
@@ -14,8 +15,7 @@ export class KwilAction implements KwilAction {
     private kwil: NodeKwil | WebKwil;
     private actionName: string;
     private dbid: string | (() => Promise<string>);
-    private signer: EthSigner;
-    private publicKey: string | (() => Promise<string>);
+    private kwilSigner: KwilSigner;
     private txQueryTries: number = 0;
 
     /**
@@ -47,8 +47,7 @@ export class KwilAction implements KwilAction {
         config: KwilConfig,
         actionName: string,
         dbid: string | (() => Promise<string>),
-        signer: EthSigner,
-        publicKey: string | (() => Promise<string>)
+        kwilSigner: KwilSigner
     ) {
         // create Kwil class
         if (typeof window !== "undefined") {
@@ -58,34 +57,25 @@ export class KwilAction implements KwilAction {
         }
 
         this.dbid = dbid;
-        this.signer = signer;
-        this.publicKey = publicKey;
         this.actionName = actionName;
+        this.kwilSigner = kwilSigner;
     }
 
-    public async execute(inputs: Types.ActionInput | Types.ActionInput[]): Promise<void> {
-        // resolve publicKey if it is a function
-        if (typeof this.publicKey === "function") {
-            this.publicKey = await this.publicKey();
-        }
-
+    public async execute(inputs: Entries[]): Promise<void> {
         // resolve dbid if it is a function
         if (typeof this.dbid === "function") {
             this.dbid = await this.dbid();
         }
 
-        // construct kwil tx - note to subsquid-team: the tx build process will be much simpler in the next release see {@link https://github.com/kwilteam/kwil-js/issues/32}
-        const tx = await this.kwil
-            .actionBuilder()
-            .dbid(this.dbid)
-            .signer(this.signer)
-            .publicKey(this.publicKey)
-            .name(this.actionName)
-            .concat(inputs)
-            .buildTx();
+        // construct action body
+        const body: Types.ActionBody = {
+            dbid: this.dbid,
+            action: this.actionName,
+            inputs: inputs
+        }
 
-        // broadcast tx to Kwil Database
-        const { data } = await this.kwil.broadcast(tx);
+        // execute action
+        const { data } = await this.kwil.execute(body, this.kwilSigner);
 
         // retrieve hash from response
         const hash = data?.tx_hash;
