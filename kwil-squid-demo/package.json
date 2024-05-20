@@ -5,7 +5,7 @@
     "build": "rm -rf lib && tsc"
   },
   "dependencies": {
-    "@kwilteam/kwil-js": "^0.5.5",
+    "@kwilteam/kwil-js": "^0.6.3",
     "@subsquid/archive-registry": "^3.0.0",
     "@subsquid/evm-processor": "^1.4.0",
     "@subsquid/graphql-server": "^4.2.0",
